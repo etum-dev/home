@@ -1,0 +1,12 @@
+set $darkblue #0b2153
+set $lightblue #2596be
+set $vlightblue #f0fdff
+set $matrixgreen #04aa27
+set $greygraygay #565b67
+set $soulblack #040404
+
+# border -> background -> text -> indicator -> child border
+client.focused	$lightblue $greygraygay $vlightblue $darkblue  
+client.unfocused $darkblue $soulblack $lightblue
+client.focused_inactive $darkblue $greygraygrey $lightblue 
+client.urgent 
