@@ -1,0 +1,23 @@
+# mostly aliases, not an actual profile
+
+getAltDomains(){
+  amass intel whois -d $1
+
+}
+ffufProxy(){
+  echo "fuffering on $1 via proxy"
+  mkdir ffufensproxyOut
+  
+}
+ffufRecurse(){
+  dirname=ffuf_recurse
+  mkdir -p $dirname
+  url=$(echo $1 | sed -E 's#^.*://##; s#/##g')
+  echo "fuffering on $1"
+  wordlist=${2:~/wordlists/onelistforallmicro.txt}
+  ffuf -u $1/FUZZ -w $wordlist \
+  -H "User-Agent: Mozilla Firefox Mozilla/6.9 X-Bug-Bounty: artificialhero" \
+  -recursion -recursion-depth 10 \
+  -o $dirname/$url -of json
+  -mc all -ac -fc=400
+}
