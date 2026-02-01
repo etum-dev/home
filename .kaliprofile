@@ -21,3 +21,19 @@ ffufRecurse(){
   -o $dirname/$url -of json
   -mc all -ac -fc=400
 }
+ffufRecurseCSV(){
+  dirname=ffuf_recurse
+  mkdir -p $dirname
+  url=$(echo $1 | sed -E 's#^.*://##; s#/##g')
+  echo "fuffering on $1"
+  wordlist=${2:~/wordlists/onelistforallmicro.txt}
+  ffuf -u $1/FUZZ -w $wordlist \
+  -H "User-Agent: Mozilla Firefox Mozilla/6.9 X-Bug-Bounty: artificialhero" \
+  -recursion -recursion-depth 10 \
+  -o $dirname/$url -of csv
+  -mc all -ac -fc=400
+}
+
+parseCsv(){
+  find -iname "*.csv" | xargs cat | cut -d"," -f2,4- | awk -F, 'BEGIN { OFS=FS }; { $1=substr($1, 1, 110); print}' | sort -t, -k 5,5 -n -u | vim - 
+}
